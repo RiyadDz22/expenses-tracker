@@ -9,33 +9,34 @@ class NewExpense extends StatefulWidget {
 }
 
 class _NewExpenseState extends State<NewExpense> {
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime? selectedDate;
+  Catagory selectedCatagory = Catagory.leisure;
+
+  void datePicker() async {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: firstDate,
+      lastDate: now,
+    );
+    setState(() {
+      selectedDate = pickedDate;
+    });
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _titleController = TextEditingController();
-    final _amountController = TextEditingController();
-    DateTime? selectedDate;
-    Catagory selectedCatagory = Catagory.leisure;
-
-    void datePicker() async {
-      final now = DateTime.now();
-      final firstDate = DateTime(now.year - 1, now.month, now.day);
-      final pickedDate = await showDatePicker(
-        context: context,
-        initialDate: now,
-        firstDate: firstDate,
-        lastDate: now,
-      );
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    }
-
-    dispose() {
-      _titleController.dispose();
-      _amountController.dispose();
-      super.dispose();
-    }
-
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(children: [
